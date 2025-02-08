@@ -7,9 +7,9 @@ import { Pokemon } from "../types/pokemon";
 import { motion } from "framer-motion";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
-import Lenis from "@studio-freight/lenis";
+import Lenis from "lenis"; // ✅ Updated import
 import { Poppins } from "next/font/google";
-import Particles from "react-tsparticles";
+// ✅ Updated import
 
 const poppins = Poppins({ subsets: ["latin"], weight: ["400", "500", "700"] });
 
@@ -17,7 +17,7 @@ const poppins = Poppins({ subsets: ["latin"], weight: ["400", "500", "700"] });
 const particlesOptions = {
   background: {
     color: {
-      value: "#000000", // Solid black background
+      value: "#000000",
     },
   },
   fpsLimit: 60,
@@ -37,7 +37,7 @@ const particlesOptions = {
       },
     },
     color: {
-      value: ["#ff0000", "#ff7f00", "#ffff00"], // red, orange, yellow for a gradient effect
+      value: ["#ff0000", "#ff7f00", "#ffff00"],
     },
     shape: {
       type: "circle",
@@ -53,14 +53,13 @@ const particlesOptions = {
     move: {
       enable: true,
       speed: 2,
-      direction: "bottom", // falling downwards
+      direction: "bottom",
       random: false,
       straight: false,
       outModes: {
         default: "out",
       },
     },
-    // If your version supports trail effect:
     trail: {
       enable: true,
       length: 10,
@@ -112,7 +111,6 @@ export function PokemonList() {
     gsap.registerPlugin(ScrollTrigger);
 
     const lenis = new Lenis({
-      smooth: true,
       duration: 1.2,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     });
@@ -175,8 +173,8 @@ export function PokemonList() {
     <div
       className={`${poppins.className} relative min-h-screen bg-gradient-to-b from-black via-gray-900 to-black text-white`}
     >
-      {/* Particle Background */}
-      <Particles options={particlesOptions} className="absolute inset-0 z-0" />
+     
+     
 
       {/* Main Content Wrapped in a Higher z-index Container */}
       <div className="relative z-10">
