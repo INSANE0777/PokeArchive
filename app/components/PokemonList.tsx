@@ -7,67 +7,10 @@ import { Pokemon } from "../types/pokemon";
 import { motion } from "framer-motion";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
-import Lenis from "lenis"; // ✅ Updated import
+import Lenis from "lenis";
 import { Poppins } from "next/font/google";
-// ✅ Updated import
 
 const poppins = Poppins({ subsets: ["latin"], weight: ["400", "500", "700"] });
-
-// Particle configuration for a comet-like falling effect
-const particlesOptions = {
-  background: {
-    color: {
-      value: "#000000",
-    },
-  },
-  fpsLimit: 60,
-  interactivity: {
-    events: {
-      onClick: { enable: false },
-      onHover: { enable: false },
-      resize: true,
-    },
-  },
-  particles: {
-    number: {
-      value: 50,
-      density: {
-        enable: true,
-        area: 800,
-      },
-    },
-    color: {
-      value: ["#ff0000", "#ff7f00", "#ffff00"],
-    },
-    shape: {
-      type: "circle",
-    },
-    opacity: {
-      value: 0.8,
-      random: true,
-    },
-    size: {
-      value: { min: 1, max: 4 },
-      random: true,
-    },
-    move: {
-      enable: true,
-      speed: 2,
-      direction: "bottom",
-      random: false,
-      straight: false,
-      outModes: {
-        default: "out",
-      },
-    },
-    trail: {
-      enable: true,
-      length: 10,
-      fillColor: "#000000",
-    },
-  },
-  detectRetina: true,
-};
 
 export function PokemonList() {
   const [pokemon, setPokemon] = useState<Pokemon[]>([]);
@@ -75,7 +18,6 @@ export function PokemonList() {
   const [generation, setGeneration] = useState(1);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Fetch Pokémon data based on the selected generation
   useEffect(() => {
     async function loadPokemon() {
       setLoading(true);
@@ -106,7 +48,6 @@ export function PokemonList() {
     loadPokemon();
   }, [generation]);
 
-  // Initialize GSAP ScrollTrigger with Lenis for smooth scrolling
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
@@ -115,11 +56,10 @@ export function PokemonList() {
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     });
 
-    // Set up ScrollTrigger to work with Lenis
     ScrollTrigger.scrollerProxy(document.body, {
       scrollTop(value) {
         return arguments.length
-          ? lenis.scrollTo(value, { duration: 0, easing: (t: number) => t })
+          ? lenis.scrollTo(value as number, { duration: 0, easing: (t: number) => t })
           : lenis.scroll;
       },
       getBoundingClientRect() {
@@ -147,7 +87,6 @@ export function PokemonList() {
     };
   }, []);
 
-  // GSAP fade‑in animation for the grid container when generation changes
   useEffect(() => {
     if (containerRef.current) {
       gsap.from(containerRef.current, {
@@ -173,10 +112,6 @@ export function PokemonList() {
     <div
       className={`${poppins.className} relative min-h-screen bg-gradient-to-b from-black via-gray-900 to-black text-white`}
     >
-     
-     
-
-      {/* Main Content Wrapped in a Higher z-index Container */}
       <div className="relative z-10">
         <div className="container mx-auto px-4 py-8">
           <motion.h1
@@ -187,7 +122,6 @@ export function PokemonList() {
           >
             Pokémon Gallery
           </motion.h1>
-          {/* Generation Buttons Container - Wrapped in a scrollable div */}
           <div className="w-full overflow-x-auto">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
