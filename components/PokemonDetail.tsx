@@ -1,20 +1,76 @@
 "use client";
 
 import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { Poppins } from "next/font/google";
-import { Pokemon, PokemonSpecies } from "../app/types/pokemon";
 
-const poppins = Poppins({ subsets: ["latin"], weight: ["400", "500", "700"] });
+// Define types for Pokémon data
+
+interface OfficialArtworkSprites {
+  front_default: string;
+  front_shiny: string;
+}
+
+interface PokemonSprites {
+  other: {
+    "official-artwork": OfficialArtworkSprites;
+  };
+}
+
+interface PokemonAbility {
+  ability: {
+    name: string;
+    url: string;
+  };
+  is_hidden: boolean;
+  slot: number;
+}
+
+interface PokemonStat {
+  base_stat: number;
+  effort: number;
+  stat: {
+    name: string;
+    url: string;
+  };
+}
+
+export interface Pokemon {
+  id: number;
+  name: string;
+  height: number;
+  weight: number;
+  abilities: PokemonAbility[];
+  stats: PokemonStat[];
+  sprites: PokemonSprites;
+}
+
+interface FlavorTextEntry {
+  flavor_text: string;
+  language: {
+    name: string;
+    url: string;
+  };
+  version: {
+    name: string;
+    url: string;
+  };
+}
+
+export interface PokemonSpecies {
+  flavor_text_entries: FlavorTextEntry[];
+}
 
 interface PokemonDetailProps {
   pokemon: Pokemon;
   species: PokemonSpecies;
   evolutionChain: any;
 }
+
+const poppins = Poppins({ subsets: ["latin"], weight: ["400", "500", "700"] });
 
 export default function PokemonDetail({
   pokemon,
@@ -77,10 +133,13 @@ export default function PokemonDetail({
     );
   };
 
+  // Use a type assertion to ensure the official artwork object has both properties.
+  const officialArtwork = pokemon.sprites.other["official-artwork"] as OfficialArtworkSprites;
+
   // Choose the main image based on the showShiny flag.
   const mainImage = showShiny
-    ? pokemon.sprites.other["official-artwork"].front_shiny
-    : pokemon.sprites.other["official-artwork"].front_default;
+    ? officialArtwork.front_shiny
+    : officialArtwork.front_default;
 
   return (
     <div className={`${poppins.className} min-h-screen bg-black py-8 text-white`}>
