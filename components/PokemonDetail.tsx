@@ -5,8 +5,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import { Pokemon, PokemonSpecies } from "../types/pokemon";
 import { Poppins } from "next/font/google";
+import { Pokemon, PokemonSpecies } from "../app/types/pokemon";
 
 const poppins = Poppins({ subsets: ["latin"], weight: ["400", "500", "700"] });
 
