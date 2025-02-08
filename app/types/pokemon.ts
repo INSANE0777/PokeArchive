@@ -45,4 +45,8 @@ export interface PokemonSpecies {
       name: string;
     };
   }>;
+  // Added evolution_chain property
+  evolution_chain: {
+    url: string;
+  };
 }

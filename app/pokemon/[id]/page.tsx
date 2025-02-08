@@ -1,15 +1,28 @@
+// /app/pokemon/[id]/page.tsx
 import { getPokemon, getPokemonSpecies, getEvolutionChain } from '../../lib/api';
 import { Pokemon, PokemonSpecies } from '../../types/pokemon';
 import PokemonDetail from '../../../components/PokemonDetail';
 
-export default async function PokemonDetailPage({ params }: { params: { id: string } }) {
+interface PokemonDetailPageProps {
+  params: {
+    id: string;
+  };
+}
+
+export default async function PokemonDetailPage({ params }: PokemonDetailPageProps) {
   const pokemon: Pokemon = await getPokemon(params.id);
   const species: PokemonSpecies = await getPokemonSpecies(params.id);
-  
+
   // Use the evolution chain URL from species data to fetch evolution chain details
   const evolutionChain = await getEvolutionChain(species.evolution_chain.url);
 
-  return <PokemonDetail pokemon={pokemon} species={species} evolutionChain={evolutionChain} />;
+  return (
+    <PokemonDetail
+      pokemon={pokemon}
+      species={species}
+      evolutionChain={evolutionChain}
+    />
+  );
 }
 
 export async function generateStaticParams() {
